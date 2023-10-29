@@ -566,9 +566,14 @@ public class EntityBinding {
      * @return the annotation
      */
     public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
-        Annotation annotation = annotations.computeIfAbsent(annotationClass, cls -> Optional.ofNullable(
-                EntityDictionary.getFirstAnnotation(entityClass, Collections.singletonList(annotationClass)))
-                .orElse(NO_ANNOTATION));
+        Annotation annotation = annotations.get(annotationClass);
+        if (annotation == null) {
+            annotation = EntityDictionary.getFirstAnnotation(entityClass, Collections.singletonList(annotationClass));
+            if (annotation == null) {
+                annotation = NO_ANNOTATION;
+            }
+            annotations.putIfAbsent(annotationClass, annotation);
+        }
         return annotation == NO_ANNOTATION ? null : annotationClass.cast(annotation);
     }
 

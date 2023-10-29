@@ -9,8 +9,6 @@ import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.AbstractSet;
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
 
 /**
  * Stream iterable list as a set of PersistentResource.
@@ -52,10 +50,5 @@ public class PersistentResourceSet<T> extends AbstractSet<PersistentResource<T>>
     @Override
     public int size() {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Spliterator<PersistentResource<T>> spliterator() {
-        return Spliterators.spliteratorUnknownSize(iterator(), 0);
     }
 }
